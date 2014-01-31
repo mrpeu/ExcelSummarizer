@@ -71,6 +71,15 @@ namespace ExcelSummarizer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zusammenfassung.xlsx.
+        /// </summary>
+        internal static string OutputPathDefault {
+            get {
+                return ResourceManager.GetString("OutputPathDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap settings {
@@ -87,6 +96,25 @@ namespace ExcelSummarizer.Properties {
             get {
                 object obj = ResourceManager.GetObject("sum", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] template {
+            get {
+                object obj = ResourceManager.GetObject("template", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zusammenfassung.xlsx.
+        /// </summary>
+        internal static string TemplatePathDefault {
+            get {
+                return ResourceManager.GetString("TemplatePathDefault", resourceCulture);
             }
         }
     }

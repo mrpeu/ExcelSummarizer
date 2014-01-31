@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,15 +11,18 @@ using ExcelSummarizer.Properties;
 namespace ExcelSummarizer
 {
     [System.Runtime.InteropServices.ComVisible( true )]
-    public class MProRibbon : ExcelRibbon
+    public class Ribbon : ExcelRibbon
     {
+        public event EventHandler<EventArgs<string>> TemplatePathChanged;
+        public event EventHandler<EventArgs<string>> TargetPathChanged;
+
         #region var
         public static IRibbonUI _ribbonUi { get; private set; }
 
-        enum EControlIds
+        public enum EControlIds
         {
             grp_main, btn_summary, btn_settings,
-            grp_target, txt_target, btn_target
+            grp_configuration, txt_template, btn_template, txt_target, btn_target
         };
 
         static Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
@@ -26,7 +30,9 @@ namespace ExcelSummarizer
             {EControlIds.btn_summary, "Erstellen"},
             {EControlIds.btn_settings, "Einstellen"},
 
-            {EControlIds.grp_target, "Ziel"},
+            {EControlIds.grp_configuration, "Ziel"},
+            {EControlIds.txt_template, String.Empty},
+            {EControlIds.btn_template, " ... "},
             {EControlIds.txt_target, String.Empty},
             {EControlIds.btn_target, " ... "}
         };
@@ -47,10 +53,12 @@ namespace ExcelSummarizer
         static Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
             {EControlIds.btn_summary, Resources.sum},
             {EControlIds.btn_settings, Resources.settings},
+            {EControlIds.txt_template, Resources.folder},
             {EControlIds.txt_target, Resources.folder}
         };
 
         static Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
+            {EControlIds.txt_template, String.Empty},
             {EControlIds.txt_target, String.Empty}
         };
 
@@ -67,11 +75,19 @@ namespace ExcelSummarizer
 
             </group>
 
-            <group id='grp_target' getLabel='GetLabel'>
+            <group id='grp_configuration' getLabel='GetLabel'>
+
+                <box id='box_template' boxStyle='horizontal'>
+
+                    <editBox id='txt_template' getImage='GetImage' getLabel='GetLabel' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
+
+                    <button id='btn_template' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
+                
+                </box>
 
                 <box id='box_target' boxStyle='horizontal'>
 
-                    <editBox id='txt_target' getImage='GetImage' getLabel='GetLabel' getText='GetText' onChange='OnChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
+                    <editBox id='txt_target' getImage='GetImage' getLabel='GetLabel' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
 
                     <button id='btn_target' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
                 
@@ -97,23 +113,24 @@ namespace ExcelSummarizer
 
         public void Ribbon_Load( IRibbonUI sender )
         {
-            _ribbonUi = sender;
+            //_ribbonUi = sender;
+            //AddIn.RegisterRibbon( this );
         }
 
         public override void OnStartupComplete( ref Array custom )
         {
-            var app = ExcelDna.Integration.ExcelDnaUtil.Application as Excel.Application;
-            if ( app != null )
-            {
-                Texts[ EControlIds.txt_target ] = app.ActiveWorkbook.FullName;
-            }
+            //var app = ExcelDna.Integration.ExcelDnaUtil.Application as Excel.Application;
+            //if ( app != null )
+            //{
+            //    Texts[ EControlIds.txt_target ] = app.ActiveWorkbook.FullName;
+            //}
 
             base.OnStartupComplete( ref custom );
         }
         #endregion
 
 
-        public String GetLabel( IRibbonControl control )
+        private String GetLabel( IRibbonControl control )
         {
             String label = String.Empty;
 
@@ -128,7 +145,7 @@ namespace ExcelSummarizer
             return label;
         }
 
-        public string GetScreentip( IRibbonControl control )
+        private string GetScreentip( IRibbonControl control )
         {
             string screentip = String.Empty;
 
@@ -143,7 +160,7 @@ namespace ExcelSummarizer
             return screentip;
         }
 
-        public string GetSupertip( IRibbonControl control )
+        private string GetSupertip( IRibbonControl control )
         {
             string supertip = String.Empty;
 
@@ -158,7 +175,7 @@ namespace ExcelSummarizer
             return supertip;
         }
 
-        public Image GetImage( IRibbonControl control )
+        private Image GetImage( IRibbonControl control )
         {
             Image img = null;
 
@@ -170,7 +187,7 @@ namespace ExcelSummarizer
             return img;
         }
 
-        public String GetText( IRibbonControl control )
+        private String GetText( IRibbonControl control )
         {
             String text = null;
 
@@ -183,21 +200,40 @@ namespace ExcelSummarizer
         }
 
 
-        public void OnClick( IRibbonControl control )
+        private void OnClick( IRibbonControl control )
         {
             EControlIds id;
             if ( !Enum.TryParse<EControlIds>( control.Id, out id ) ) throw new Exception( "Incorrect RibbonControl. Unknown id: " + control.Id );
-
 
         }
 
-        public void OnChange( IRibbonControl control, String text )
+        private void OnTextChange( IRibbonControl control, String text )
         {
             EControlIds id;
             if ( !Enum.TryParse<EControlIds>( control.Id, out id ) ) throw new Exception( "Incorrect RibbonControl. Unknown id: " + control.Id );
 
+            switch ( id )
+            {
+                case EControlIds.txt_template:
+                    if ( TemplatePathChanged != null ) TemplatePathChanged( this, new EventArgs<string>( text ) );
+                    break;
 
+                case EControlIds.txt_target:
+                    if ( TargetPathChanged != null ) TargetPathChanged( this, new EventArgs<string>( text ) );
+                    break;
 
+                default:
+                    break;
+            }
+
+        }
+
+        internal void UpdateConfiguration( Configuration Configuration )
+        {
+            //Texts[ EControlIds.txt_template ] = Configuration.TemplatePath;
+            //Texts[ EControlIds.txt_target ] = Configuration.TargetPath;
+
+            //_ribbonUi.Invalidate();
         }
     }
 }
