@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelDna.Integration">
-      <HintPath>..\packages\Excel-DNA.0.30.3\lib\ExcelDna.Integration.dll</HintPath>
+      <HintPath>packages\Excel-DNA.0.30.3\lib\ExcelDna.Integration.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Interop.Excel">
@@ -91,8 +91,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo F | xcopy "c:\users\gpe\documents\perso\ExcelSummarizer\packages\Excel-DNA.0.30.3\tools\ExcelDna.xll" "$(TargetDir)ExcelSummarizer-AddIn.xll" /C /Y
-"c:\users\gpe\documents\perso\ExcelSummarizer\packages\Excel-DNA.0.30.3\tools\ExcelDnaPack.exe" "$(TargetDir)ExcelSummarizer-AddIn.dna" /Y</PostBuildEvent>
+    <PostBuildEvent>echo F | xcopy "..\..\..\packages\Excel-DNA.0.30.3\tools\ExcelDna.xll" "$(TargetDir)ExcelSummarizer-AddIn.xll" /C /Y
+"..\..\..\packages\Excel-DNA.0.30.3\tools\ExcelDnaPack.exe" "$(TargetDir)ExcelSummarizer-AddIn.dna" /Y
+echo F | xcopy "$(ProjectDir)packages\Excel-DNA.0.30.3\tools\ExcelDna.xll" "$(TargetDir)ExcelSummarizer-AddIn.xll" /C /Y
+"$(ProjectDir)packages\Excel-DNA.0.30.3\tools\ExcelDnaPack.exe" "$(TargetDir)ExcelSummarizer-AddIn.dna" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
