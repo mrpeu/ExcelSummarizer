@@ -23,7 +23,7 @@ namespace ExcelSummarizer
 
         public void AutoOpen()
         {
-            //Configuration = new Configuration();
+            Configuration = new Configuration();
         }
 
         public void AutoClose()
@@ -33,12 +33,12 @@ namespace ExcelSummarizer
 
         internal static void RegisterRibbon( Ribbon ribbon )
         {
-            //AddIn.ribbon = ribbon;
+            AddIn.ribbon = ribbon;
 
-            //ribbon.UpdateConfiguration( Configuration );
+            ribbon.UpdateConfiguration( Configuration );
 
-            //ribbon.TemplatePathChanged += ( s, e ) => { Configuration.TemplatePath = e.Value; };
-            //ribbon.TargetPathChanged += ( s, e ) => { Configuration.TargetPath = e.Value; };
+            ribbon.TemplatePathChanged += ( s, e ) => { Configuration.TemplatePath = e.Value; };
+            ribbon.TargetPathChanged += ( s, e ) => { Configuration.TargetPath = e.Value; };
         }
         #endregion
     }

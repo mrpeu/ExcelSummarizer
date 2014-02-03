@@ -71,6 +71,8 @@
     <Content Include="ExcelSummarizer-AddIn.dna">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Properties\bullet_green.png" />
+    <Content Include="Properties\bullet_pink.png" />
     <Content Include="Properties\folder.png" />
     <None Include="Properties\sum.png" />
     <None Include="Properties\settings.png" />

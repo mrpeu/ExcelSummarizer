@@ -30,6 +30,13 @@ namespace ExcelSummarizer
         /// <remarks>Used in case TemplatePath is null or points to an invalid file.</remarks>
         byte[] TemplateDefault { get { return Resources.template; } }
 
+        bool _isTemplateValid;
+        public bool IsTemplateValid
+        {
+            get { return _isTemplateValid; }
+            protected set { _isTemplateValid = value; }
+        }
+
         /// <summary>
         /// Path of the generated summary
         /// </summary>
@@ -39,7 +46,7 @@ namespace ExcelSummarizer
             get { return outputPath; }
             set { outputPath = value; }
         }
-        
+
         /// <summary>
         /// Path to the folder containing the target files to summarize.
         /// </summary>
@@ -50,30 +57,74 @@ namespace ExcelSummarizer
             set { targetPath = value; }
         }
 
+        bool _isTargetValid;
+        public bool IsTargetValid
+        {
+            get { return _isTargetValid; }
+            protected set { _isTargetValid = value; }
+        }
+
         #endregion
 
 
         #region init
         public Configuration()
         {
+            PrepareTemplate();
+
+            //PrepareTarget();
+        }
+        #endregion
+
+        public bool PrepareTemplate()
+        {
+            bool valid = false;
+
             var ExcelApp = (Application)ExcelDnaUtil.Application;
 
+
             //---------------
-            // init template
+            // init template path
+
             if ( !File.Exists( TemplatePath ) )
             {
                 // create a temporary file from the embedded template
                 TemplatePath = Path.Combine( Path.GetTempPath(), "summary.xlsx" );
 
-                using ( var writer2 = new FileInfo( TemplatePath ).OpenWrite() )
+                using ( var writer = new FileInfo( TemplatePath ).OpenWrite() )
                 {
                     var bytes = Resources.template;
-                    writer2.Write( bytes, 0, bytes.Length );
+                    writer.Write( bytes, 0, bytes.Length );
+                    writer.Close();
                 }
             }
 
-            ExcelApp.Workbooks.Open( TemplatePath );
+
+
+            //---------------
+            // open template
+
+            try
+            {
+                var wb = ExcelApp.Workbooks.Open( TemplatePath );
+            }
+            catch
+            {
+                valid = false;
+            }
+
+
+
+            return IsTemplateValid = valid;
         }
-        #endregion
+
+        public bool PrepareTarget()
+        {
+            bool valid = false;
+
+            throw new NotImplementedException( "PrepareTarget" );
+
+            return IsTargetValid = valid;
+        }
     }
 }

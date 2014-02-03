@@ -22,7 +22,7 @@ namespace ExcelSummarizer
         public enum EControlIds
         {
             grp_main, btn_summary, btn_settings,
-            grp_configuration, txt_template, btn_template, txt_target, btn_target
+            grp_configuration, lbl_template, txt_template, btn_template, lbl_target, txt_target, btn_target
         };
 
         static Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
@@ -31,10 +31,11 @@ namespace ExcelSummarizer
             {EControlIds.btn_settings, "Einstellen"},
 
             {EControlIds.grp_configuration, "Ziel"},
-            {EControlIds.txt_template, String.Empty},
-            {EControlIds.btn_template, " ... "},
-            {EControlIds.txt_target, String.Empty},
-            {EControlIds.btn_target, " ... "}
+            {EControlIds.lbl_target, "Ordner:" },
+            {EControlIds.btn_target, " ... "},
+            
+            {EControlIds.lbl_template, "Vorlage:"},
+            {EControlIds.btn_template, " ... "}
         };
 
         static Dictionary<EControlIds, String> Screentips = new Dictionary<EControlIds, String>() {
@@ -53,8 +54,8 @@ namespace ExcelSummarizer
         static Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
             {EControlIds.btn_summary, Resources.sum},
             {EControlIds.btn_settings, Resources.settings},
-            {EControlIds.txt_template, Resources.folder},
-            {EControlIds.txt_target, Resources.folder}
+            {EControlIds.txt_template, null},
+            {EControlIds.txt_target, null}
         };
 
         static Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
@@ -77,20 +78,37 @@ namespace ExcelSummarizer
 
             <group id='grp_configuration' getLabel='GetLabel'>
 
-                <box id='box_template' boxStyle='horizontal'>
+                <box id='big_box0' boxStyle='horizontal'>
 
-                    <editBox id='txt_template' getImage='GetImage' getLabel='GetLabel' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
+                    <box id='big_box00' boxStyle='vertical'>
 
-                    <button id='btn_template' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
+                        <labelControl id='lbl_target' getLabel='GetLabel' />
+
+                        <labelControl id='lbl_template' getLabel='GetLabel' />
+
+                    </box>
+
+
+                    <box id='big_box01' boxStyle='vertical'>
+
+                        <box id='box_target' boxStyle='horizontal'>
+
+                            <editBox id='txt_target' getImage='GetImage' showLabel='false' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
+
+                            <button id='btn_target' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
                 
-                </box>
+                        </box>
 
-                <box id='box_target' boxStyle='horizontal'>
+                        <box id='box_template' boxStyle='horizontal'>
 
-                    <editBox id='txt_target' getImage='GetImage' getLabel='GetLabel' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
+                            <editBox id='txt_template' getImage='GetImage' showLabel='false' getText='GetText' onChange='OnTextChange' sizeString='WWWWWWWWWWWWWWWWWWWWWWWWWW'/>
 
-                    <button id='btn_target' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
+                            <button id='btn_template' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='OnClick' />
                 
+                        </box>
+
+                    </box>
+
                 </box>
 
             </group>
@@ -113,24 +131,18 @@ namespace ExcelSummarizer
 
         public void Ribbon_Load( IRibbonUI sender )
         {
-            //_ribbonUi = sender;
-            //AddIn.RegisterRibbon( this );
+            _ribbonUi = sender;
+            AddIn.RegisterRibbon( this );
         }
 
         public override void OnStartupComplete( ref Array custom )
         {
-            //var app = ExcelDna.Integration.ExcelDnaUtil.Application as Excel.Application;
-            //if ( app != null )
-            //{
-            //    Texts[ EControlIds.txt_target ] = app.ActiveWorkbook.FullName;
-            //}
-
             base.OnStartupComplete( ref custom );
         }
         #endregion
 
 
-        private String GetLabel( IRibbonControl control )
+        public String GetLabel( IRibbonControl control )
         {
             String label = String.Empty;
 
@@ -145,7 +157,7 @@ namespace ExcelSummarizer
             return label;
         }
 
-        private string GetScreentip( IRibbonControl control )
+        public string GetScreentip( IRibbonControl control )
         {
             string screentip = String.Empty;
 
@@ -160,7 +172,7 @@ namespace ExcelSummarizer
             return screentip;
         }
 
-        private string GetSupertip( IRibbonControl control )
+        public string GetSupertip( IRibbonControl control )
         {
             string supertip = String.Empty;
 
@@ -175,7 +187,7 @@ namespace ExcelSummarizer
             return supertip;
         }
 
-        private Image GetImage( IRibbonControl control )
+        public Image GetImage( IRibbonControl control )
         {
             Image img = null;
 
@@ -187,7 +199,7 @@ namespace ExcelSummarizer
             return img;
         }
 
-        private String GetText( IRibbonControl control )
+        public String GetText( IRibbonControl control )
         {
             String text = null;
 
@@ -200,14 +212,14 @@ namespace ExcelSummarizer
         }
 
 
-        private void OnClick( IRibbonControl control )
+        public void OnClick( IRibbonControl control )
         {
             EControlIds id;
             if ( !Enum.TryParse<EControlIds>( control.Id, out id ) ) throw new Exception( "Incorrect RibbonControl. Unknown id: " + control.Id );
 
         }
 
-        private void OnTextChange( IRibbonControl control, String text )
+        public void OnTextChange( IRibbonControl control, String text )
         {
             EControlIds id;
             if ( !Enum.TryParse<EControlIds>( control.Id, out id ) ) throw new Exception( "Incorrect RibbonControl. Unknown id: " + control.Id );
@@ -230,10 +242,13 @@ namespace ExcelSummarizer
 
         internal void UpdateConfiguration( Configuration Configuration )
         {
-            //Texts[ EControlIds.txt_template ] = Configuration.TemplatePath;
-            //Texts[ EControlIds.txt_target ] = Configuration.TargetPath;
+            Texts[ EControlIds.txt_template ] = Configuration.TemplatePath;
+            Texts[ EControlIds.txt_target ] = Configuration.TargetPath;
 
-            //_ribbonUi.Invalidate();
+            Images[ EControlIds.txt_template ] = Configuration.IsTemplateValid ? Resources.bullet_green : Resources.bullet_pink;
+            Images[ EControlIds.txt_target ] = Configuration.IsTargetValid ? Resources.bullet_green : Resources.bullet_pink;
+
+            _ribbonUi.Invalidate();
         }
     }
 }
