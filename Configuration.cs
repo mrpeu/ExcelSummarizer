@@ -24,12 +24,6 @@ namespace ExcelSummarizer
             set { templatePath = value; }
         }
 
-        /// <summary>
-        /// Resource object: embbeded summary template file.
-        /// </summary>
-        /// <remarks>Used in case TemplatePath is null or points to an invalid file.</remarks>
-        byte[] TemplateDefault { get { return Resources.template; } }
-
         bool _isTemplateValid;
         public bool IsTemplateValid
         {
@@ -50,7 +44,7 @@ namespace ExcelSummarizer
         /// <summary>
         /// Path to the folder containing the target files to summarize.
         /// </summary>
-        String targetPath;
+        String targetPath = Environment.CurrentDirectory;
         public String TargetPath
         {
             get { return targetPath; }
