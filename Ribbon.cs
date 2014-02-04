@@ -82,6 +82,8 @@ namespace ExcelSummarizer
 
                     <box id='big_box00' boxStyle='vertical'>
 
+                        <labelControl id='lbl_spacer0' label=' ' />
+
                         <labelControl id='lbl_target' getLabel='GetLabel' />
 
                         <labelControl id='lbl_template' getLabel='GetLabel' />
@@ -90,6 +92,8 @@ namespace ExcelSummarizer
 
 
                     <box id='big_box01' boxStyle='vertical'>
+
+                        <labelControl id='lbl_spacer1' label=' ' />
 
                         <box id='box_target' boxStyle='horizontal'>
 

@@ -72,7 +72,7 @@ namespace ExcelSummarizer
         {
             PrepareTemplate();
 
-            //PrepareTarget();
+            PrepareTarget();
         }
         #endregion
 
@@ -107,6 +107,7 @@ namespace ExcelSummarizer
             try
             {
                 var wb = ExcelApp.Workbooks.Open( TemplatePath );
+                valid = true;
             }
             catch
             {
@@ -122,7 +123,10 @@ namespace ExcelSummarizer
         {
             bool valid = false;
 
-            throw new NotImplementedException( "PrepareTarget" );
+            if ( !Directory.Exists( TargetPath ) )
+            {
+                valid = true;
+            }
 
             return IsTargetValid = valid;
         }
