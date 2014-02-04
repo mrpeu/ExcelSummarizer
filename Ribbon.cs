@@ -25,7 +25,7 @@ namespace ExcelSummarizer
             grp_configuration, lbl_template, txt_template, btn_template, lbl_target, txt_target, btn_target
         };
 
-        static Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, "main"},
             {EControlIds.btn_summary, "Erstellen"},
             {EControlIds.btn_settings, "Einstellen"},
@@ -38,27 +38,27 @@ namespace ExcelSummarizer
             {EControlIds.btn_template, " ... "}
         };
 
-        static Dictionary<EControlIds, String> Screentips = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Screentips = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, String.Empty},
             {EControlIds.btn_summary, String.Empty},
             {EControlIds.btn_settings, String.Empty}
         };
 
         // rmk: "&#13;" for new line
-        static Dictionary<EControlIds, String> Supertips = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Supertips = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, String.Empty},
             {EControlIds.btn_summary, String.Empty},
             {EControlIds.btn_settings, String.Empty}
         };
 
-        static Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
+        internal Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
             {EControlIds.btn_summary, Resources.sum},
             {EControlIds.btn_settings, Resources.settings},
             {EControlIds.txt_template, null},
             {EControlIds.txt_target, null}
         };
 
-        static Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
             {EControlIds.txt_template, String.Empty},
             {EControlIds.txt_target, String.Empty}
         };
@@ -244,14 +244,8 @@ namespace ExcelSummarizer
 
         }
 
-        internal void UpdateConfiguration( Configuration Configuration )
+        internal void Invalidate()
         {
-            Texts[ EControlIds.txt_template ] = Configuration.TemplatePath;
-            Texts[ EControlIds.txt_target ] = Configuration.TargetPath;
-
-            Images[ EControlIds.txt_template ] = Configuration.IsTemplateValid ? Resources.bullet_green : Resources.bullet_pink;
-            Images[ EControlIds.txt_target ] = Configuration.IsTargetValid ? Resources.bullet_green : Resources.bullet_pink;
-
             _ribbonUi.Invalidate();
         }
     }

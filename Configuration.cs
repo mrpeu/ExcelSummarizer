@@ -80,41 +80,13 @@ namespace ExcelSummarizer
         {
             bool valid = false;
 
-            var ExcelApp = (Application)ExcelDnaUtil.Application;
-
-
             //---------------
             // init template path
 
-            if ( !File.Exists( TemplatePath ) )
+            if ( File.Exists( TemplatePath ) )
             {
-                // create a temporary file from the embedded template
-                TemplatePath = Path.Combine( Path.GetTempPath(), "summary.xlsx" );
-
-                using ( var writer = new FileInfo( TemplatePath ).OpenWrite() )
-                {
-                    var bytes = Resources.template;
-                    writer.Write( bytes, 0, bytes.Length );
-                    writer.Close();
-                }
-            }
-
-
-
-            //---------------
-            // open template
-
-            try
-            {
-                var wb = ExcelApp.Workbooks.Open( TemplatePath );
                 valid = true;
             }
-            catch
-            {
-                valid = false;
-            }
-
-
 
             return IsTemplateValid = valid;
         }
@@ -123,7 +95,7 @@ namespace ExcelSummarizer
         {
             bool valid = false;
 
-            if ( !Directory.Exists( TargetPath ) )
+            if ( Directory.Exists( TargetPath ) )
             {
                 valid = true;
             }
