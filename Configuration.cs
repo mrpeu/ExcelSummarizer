@@ -17,18 +17,27 @@ namespace ExcelSummarizer
         /// <summary>
         /// Path of the file used as template for the summary
         /// </summary>
-        String templatePath = Resources.TemplatePathDefault;
         public String TemplatePath
         {
-            get { return templatePath; }
-            set { templatePath = value; }
+            get { return Settings.Default.TemplatePath; }
+            set
+            {
+                Settings.Default.TemplatePath = value;
+                IsTemplateValid = File.Exists( value );
+                Settings.Default.Save();
+
+                if ( IsTemplateValid )
+                {
+                    InitTemplate();
+                }
+            }
         }
 
         /// <summary>
         /// Resource object: embbeded summary template file.
         /// </summary>
         /// <remarks>Used in case TemplatePath is null or points to an invalid file.</remarks>
-        byte[] TemplateDefault { get { return Resources.template; } }
+        byte[] TemplateDefault { get { return Resources.templateDefault; } }
 
         bool _isTemplateValid;
         public bool IsTemplateValid
@@ -38,23 +47,17 @@ namespace ExcelSummarizer
         }
 
         /// <summary>
-        /// Path of the generated summary
-        /// </summary>
-        String outputPath = Resources.OutputPathDefault;
-        public String OutputPath
-        {
-            get { return outputPath; }
-            set { outputPath = value; }
-        }
-
-        /// <summary>
         /// Path to the folder containing the target files to summarize.
         /// </summary>
-        String targetPath;
         public String TargetPath
         {
-            get { return targetPath; }
-            set { targetPath = value; }
+            get { return Settings.Default.TargetPath; }
+            set
+            {
+                Settings.Default.TargetPath = value;
+                IsTargetValid = Directory.Exists( value );
+                Settings.Default.Save();
+            }
         }
 
         bool _isTargetValid;
@@ -64,49 +67,64 @@ namespace ExcelSummarizer
             protected set { _isTargetValid = value; }
         }
 
+
+        public String OutputPath
+        {
+            get
+            {
+                return Path.Combine( "Summary.xlsx" );
+            }
+        }
+
         #endregion
 
 
         #region init
         public Configuration()
         {
-            PrepareTemplate();
+            InitTemplate();
 
-            //PrepareTarget();
+            InitTarget();
         }
         #endregion
 
-        public bool PrepareTemplate()
+        public bool InitTemplate()
         {
             bool valid = false;
-
             var ExcelApp = (Application)ExcelDnaUtil.Application;
-
 
             //---------------
             // init template path
 
-            if ( !File.Exists( TemplatePath ) )
+            string templatePath = TemplatePath;
+
+            if ( String.IsNullOrWhiteSpace( templatePath ) )
             {
                 // create a temporary file from the embedded template
-                TemplatePath = Path.Combine( Path.GetTempPath(), "summary.xlsx" );
+                templatePath = Path.Combine( Path.GetTempPath(), "~template.xlsx" );
 
-                using ( var writer = new FileInfo( TemplatePath ).OpenWrite() )
+                if ( File.Exists( templatePath ) )
                 {
-                    var bytes = Resources.template;
-                    writer.Write( bytes, 0, bytes.Length );
-                    writer.Close();
+                    using ( var writer = new FileInfo( templatePath ).OpenWrite() )
+                    {
+                        var bytes = Resources.templateDefault;
+                        writer.Write( bytes, 0, bytes.Length );
+                        writer.Close();
+                    }
                 }
             }
-
-
 
             //---------------
             // open template
 
             try
             {
-                var wb = ExcelApp.Workbooks.Open( TemplatePath );
+                if ( ExcelApp.Workbooks.Count > 0 && ExcelApp.ActiveWorkbook != null )
+                    ExcelApp.ActiveWorkbook.Close();
+
+                ExcelApp.Workbooks.Open( templatePath );
+
+                valid = true;
             }
             catch
             {
@@ -118,11 +136,14 @@ namespace ExcelSummarizer
             return IsTemplateValid = valid;
         }
 
-        public bool PrepareTarget()
+        public bool InitTarget()
         {
             bool valid = false;
 
-            throw new NotImplementedException( "PrepareTarget" );
+            if ( Directory.Exists( TargetPath ) )
+            {
+                valid = true;
+            }
 
             return IsTargetValid = valid;
         }

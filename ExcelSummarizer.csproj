@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus">
+      <HintPath>.\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelDna.Integration">
       <HintPath>packages\Excel-DNA.0.30.3\lib\ExcelDna.Integration.dll</HintPath>
       <Private>False</Private>
@@ -57,9 +60,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Ribbon.cs" />
+    <Compile Include="summary\Parser\InputDoc.cs" />
+    <Compile Include="summary\Parser\Parser.cs" />
+    <Compile Include="summary\Parser\Summarist.cs" />
     <Compile Include="summary\Settings\Panel_Settings.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="summary\Settings\Panel_Settings.Designer.cs">
       <DependentUpon>Panel_Settings.cs</DependentUpon>
@@ -74,6 +85,11 @@
     <Content Include="Properties\bullet_green.png" />
     <Content Include="Properties\bullet_pink.png" />
     <Content Include="Properties\folder.png" />
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Properties\sum.png" />
     <None Include="Properties\settings.png" />
     <None Include="packages.config" />
@@ -83,14 +99,13 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="summary\Settings\Panel_Settings.resx">
       <DependentUpon>Panel_Settings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="summary\Parser\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo F | xcopy "..\..\..\packages\Excel-DNA.0.30.3\tools\ExcelDna.xll" "$(TargetDir)ExcelSummarizer-AddIn.xll" /C /Y

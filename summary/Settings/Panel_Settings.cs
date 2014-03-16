@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ExcelSummarizer.Settings
+namespace ExcelSummarizer
 {
-    public partial class Panel_Settings : UserControl
+    public partial class SettingsPanel : Form
     {
-        public Panel_Settings()
+        public SettingsPanel()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
-﻿namespace ExcelSummarizer.Settings
+﻿namespace ExcelSummarizer
 {
-    partial class Panel_Settings
+    partial class SettingsPanel
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // Panel_Settings
+            // SettingsPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "Panel_Settings";
-            this.Size = new System.Drawing.Size(361, 256);
+            this.ClientSize = new System.Drawing.Size(345, 218);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Name = "SettingsPanel";
+            this.Text = "Zusammenfassung Erstellung";
             this.ResumeLayout(false);
 
         }
