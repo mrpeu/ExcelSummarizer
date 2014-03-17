@@ -93,7 +93,6 @@
     <None Include="Properties\sum.png" />
     <None Include="Properties\settings.png" />
     <None Include="packages.config" />
-    <EmbeddedResource Include="Properties\template.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

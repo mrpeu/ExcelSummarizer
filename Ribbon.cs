@@ -31,9 +31,15 @@ namespace ExcelSummarizer
             lbl_target, txt_target, btn_target
         };
 
+<<<<<<< HEAD
         static Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, "Erstellen"},
             {EControlIds.btn_summary, "Go"},
+=======
+        internal Dictionary<EControlIds, String> Labels = new Dictionary<EControlIds, String>() {
+            {EControlIds.grp_main, "main"},
+            {EControlIds.btn_summary, "Erstellen"},
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
             {EControlIds.btn_settings, "Einstellen"},
 
             {EControlIds.grp_configuration, "Ziele"},
@@ -42,7 +48,7 @@ namespace ExcelSummarizer
             {EControlIds.btn_template, "Vorlage: ..."}
         };
 
-        static Dictionary<EControlIds, String> Screentips = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Screentips = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, String.Empty},
             {EControlIds.btn_summary, String.Empty},
             {EControlIds.btn_settings, String.Empty},
@@ -50,7 +56,7 @@ namespace ExcelSummarizer
         };
 
         // rmk: "&#13;" for new line
-        static Dictionary<EControlIds, String> Supertips = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Supertips = new Dictionary<EControlIds, String>() {
             {EControlIds.grp_main, String.Empty},
             {EControlIds.btn_summary, String.Empty},
             {EControlIds.btn_settings, String.Empty},
@@ -58,14 +64,14 @@ namespace ExcelSummarizer
             {EControlIds.txt_target, String.Empty}
         };
 
-        static Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
+        internal Dictionary<EControlIds, Image> Images = new Dictionary<EControlIds, Image>() {
             {EControlIds.btn_summary, Resources.sum},
             {EControlIds.btn_settings, Resources.settings},
             {EControlIds.txt_template, null},
             {EControlIds.txt_target, null}
         };
 
-        static Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
+        internal Dictionary<EControlIds, String> Texts = new Dictionary<EControlIds, String>() {
             {EControlIds.txt_template, String.Empty},
             {EControlIds.txt_target, String.Empty}
         };
@@ -85,7 +91,13 @@ namespace ExcelSummarizer
 
                     <box id='big_box00' boxStyle='vertical'>
 
+<<<<<<< HEAD
                         <button id='btn_target' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='btn_target_OnClick' />
+=======
+                        <labelControl id='lbl_spacer0' label=' ' />
+
+                        <labelControl id='lbl_target' getLabel='GetLabel' />
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
 
                         <button id='btn_template' size='normal' getLabel='GetLabel' getScreentip='GetScreentip' getSupertip='GetSupertip' onAction='btn_template_OnClick' />
 
@@ -94,6 +106,12 @@ namespace ExcelSummarizer
 
                     <box id='big_box01' boxStyle='vertical'>
 
+<<<<<<< HEAD
+=======
+                        <labelControl id='lbl_spacer1' label=' ' />
+
+                        <box id='box_target' boxStyle='horizontal'>
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
 
                         <box id='box_target' boxStyle='horizontal'>
 
@@ -292,8 +310,9 @@ namespace ExcelSummarizer
 
         }
 
-        internal void UpdateConfiguration( Configuration Configuration )
+        internal void Invalidate()
         {
+<<<<<<< HEAD
             Texts[ EControlIds.txt_template ] = Configuration.TemplatePath;
             Images[ EControlIds.txt_template ] = Configuration.IsTemplateValid ? Resources.bullet_green : Resources.bullet_pink;
 
@@ -302,6 +321,8 @@ namespace ExcelSummarizer
 
             EnableStates[ EControlIds.btn_summary ] = Configuration.IsTemplateValid && Configuration.IsTargetValid;
 
+=======
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
             _ribbonUi.Invalidate();
         }
     }

@@ -33,12 +33,15 @@ namespace ExcelSummarizer
             }
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Resource object: embbeded summary template file.
         /// </summary>
         /// <remarks>Used in case TemplatePath is null or points to an invalid file.</remarks>
         byte[] TemplateDefault { get { return Resources.templateDefault; } }
 
+=======
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
         bool _isTemplateValid;
         public bool IsTemplateValid
         {
@@ -49,6 +52,10 @@ namespace ExcelSummarizer
         /// <summary>
         /// Path to the folder containing the target files to summarize.
         /// </summary>
+<<<<<<< HEAD
+=======
+        String targetPath = Environment.CurrentDirectory;
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
         public String TargetPath
         {
             get { return Settings.Default.TargetPath; }
@@ -84,18 +91,26 @@ namespace ExcelSummarizer
         {
             InitTemplate();
 
+<<<<<<< HEAD
             InitTarget();
+=======
+            PrepareTarget();
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
         }
         #endregion
 
         public bool InitTemplate()
         {
             bool valid = false;
+<<<<<<< HEAD
             var ExcelApp = (Application)ExcelDnaUtil.Application;
+=======
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
 
             //---------------
             // init template path
 
+<<<<<<< HEAD
             string templatePath = TemplatePath;
 
             if ( String.IsNullOrWhiteSpace( templatePath ) )
@@ -127,11 +142,12 @@ namespace ExcelSummarizer
                 valid = true;
             }
             catch
+=======
+            if ( File.Exists( TemplatePath ) )
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
             {
-                valid = false;
+                valid = true;
             }
-
-
 
             return IsTemplateValid = valid;
         }

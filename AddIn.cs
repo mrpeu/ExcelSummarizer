@@ -53,9 +53,13 @@ namespace ExcelSummarizer
 
         internal static void RegisterRibbon( Ribbon ribbon )
         {
-            AddIn.ribbon = ribbon;
+            ribbon.Texts[ Ribbon.EControlIds.txt_template ] = Configuration.TemplatePath;
+            ribbon.Texts[ Ribbon.EControlIds.txt_target ] = Configuration.TargetPath;
 
-            ribbon.UpdateConfiguration( Configuration );
+            ribbon.Images[ Ribbon.EControlIds.txt_template ] = Configuration.IsTemplateValid ? Resources.bullet_green : Resources.bullet_pink;
+            ribbon.Images[ Ribbon.EControlIds.txt_target ] = Configuration.IsTargetValid ? Resources.bullet_green : Resources.bullet_pink;
+
+            ribbon.Invalidate();
 
             ribbon.SettingsClicked += ribbon_SettingsClicked;
             ribbon.SummaryClicked += ribbon_SummaryClicked;

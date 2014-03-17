@@ -111,12 +111,20 @@ namespace ExcelSummarizer.Properties {
         }
         
         /// <summary>
+<<<<<<< HEAD
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] templateDefault {
             get {
                 object obj = ResourceManager.GetObject("templateDefault", resourceCulture);
                 return ((byte[])(obj));
+=======
+        ///   Looks up a localized string similar to Zusammenfassung.xlsx.
+        /// </summary>
+        internal static string TemplatePathDefault {
+            get {
+                return ResourceManager.GetString("TemplatePathDefault", resourceCulture);
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
             }
         }
     }

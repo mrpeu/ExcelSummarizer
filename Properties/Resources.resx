@@ -127,6 +127,12 @@
   <data name="sum" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>sum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+<<<<<<< HEAD
+=======
+  <data name="TemplatePathDefault" xml:space="preserve">
+    <value>Zusammenfassung.xlsx</value>
+  </data>
+>>>>>>> 5239de275f06cfc1c71131ec3c2410899efe91a9
   <data name="bullet_pink" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>bullet_pink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
